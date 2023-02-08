@@ -45,7 +45,7 @@ saveRDS(g.lattotal,"total.rds")
 ```
 
 ```{r}
-g.latT <- readRDS("total.rds")
+g.latT <- readRDS("../total.rds")
 ```
 
 
