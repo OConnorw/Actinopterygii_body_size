@@ -4,6 +4,7 @@ library(ape)
 library(phytools)
 library(geiger)
 <<<<<<< HEAD
+<<<<<<< HEAD
 library(tidyverse)
 library(brms)
 library(tidybayes)
@@ -15,6 +16,8 @@ library(tidybayes)
 library(MCMCglmm)
 library(data.table)
 =======
+=======
+>>>>>>> ec39920e0a492f03efe2554d1b13fb5462b65452
 #library(ggplot2)
 #library(rgbif)
 #library(maps)
@@ -39,6 +42,9 @@ library(data.table)
 #library(rgeos)# - geos-config
 #library(modelr)
 #library(knitr)
+<<<<<<< HEAD
+>>>>>>> ec39920e0a492f03efe2554d1b13fb5462b65452
+=======
 >>>>>>> ec39920e0a492f03efe2554d1b13fb5462b65452
 
 #fishtree species
@@ -113,9 +119,15 @@ lat.sum <- dat%>%
 latsum <- lat.sum%>%
   mutate(abslat = abs(lat))%>%
 <<<<<<< HEAD
+<<<<<<< HEAD
   filter(!is.na(abs lat))
 
 #Latmodel 
+=======
+  filter(!is.na(abslat))
+
+#Latmodel
+>>>>>>> ec39920e0a492f03efe2554d1b13fb5462b65452
 =======
   filter(!is.na(abslat))
 
@@ -128,7 +140,11 @@ g.lat.parallel <- brm(
   iter = 1000, 
   chains = 4,
 <<<<<<< HEAD
+<<<<<<< HEAD
   cores = 4,
+=======
+  cores = 4,#comment in on andromeda run
+>>>>>>> ec39920e0a492f03efe2554d1b13fb5462b65452
 =======
   cores = 4,#comment in on andromeda run
 >>>>>>> ec39920e0a492f03efe2554d1b13fb5462b65452
@@ -140,14 +156,20 @@ g.lat.parallel <- brm(
   data2=list(As=As),
   control = list(adapt_delta = 0.99, max_treedepth = (15)),
 <<<<<<< HEAD
+<<<<<<< HEAD
   file = paste0("test_",gsub(" ","",as.character(Sys.time()))),
   backend = "cmdstanr",
   threads=threading(8)
 =======
+=======
+>>>>>>> ec39920e0a492f03efe2554d1b13fb5462b65452
 #  cores = parallel::detectCores(),#comment out on andromeda run
   file = paste0("test_",gsub(" ","",as.character(Sys.time()))),
   backend = "cmdstanr",
   threads=threading(16)
+<<<<<<< HEAD
+>>>>>>> ec39920e0a492f03efe2554d1b13fb5462b65452
+=======
 >>>>>>> ec39920e0a492f03efe2554d1b13fb5462b65452
 )
 saveRDS(g.lat.parallel,"final0.RDS")
