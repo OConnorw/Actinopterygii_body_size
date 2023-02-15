@@ -1,6 +1,6 @@
 ---
 title: 'Body Size in Ray-Finned Fishes: Revisiting Bergmann''s Rule'
-author: "William P. O'Connor and Christopher P. Kenaley"
+author: "William P. O'Connor"
 date: "`r Sys.Date()`"
 output: html_document
 bibliography: Paper.bib
@@ -34,7 +34,7 @@ library(tidybayes)
 ```
 
 
-```{r,echo=FALSE,warning=FALSE, include=FALSE}
+```{r,echo=FALSE,warning=FALSE, include=FALSE, eval=FALSE}
 g.lat0 <- readRDS("final0.rds")
 g.lat1 <- readRDS("final1.rds")
 g.lat2 <- readRDS("final2.rds")
@@ -44,7 +44,7 @@ g.lattotal <- combine_models(g.lat0,g.lat1,g.lat2,g.lat3,g.lat4)
 saveRDS(g.lattotal,"total.rds")
 ```
 
-```{r}
+```{r, echo=FALSE}
 g.latT <- readRDS("../total.rds")
 ```
 
@@ -61,41 +61,45 @@ g.latT <- readRDS("../total.rds")
 #  model.matrix(b_abslat)
 ```
 
-```{r}
+```{r, echo=FALSE}
 ggplot(g.latT$data, aes(x=log.L,col=mar.fresh2)) + geom_histogram(binwidth=0.5) + labs(title="Figure 1: Log Length of Sample of Species",x="Log Length", y = "Count")
 ```
 
-```{r, include=FALSE}
+```{r, include=FALSE, eval=FALSE,echo=FALSE}
 #Trace plots
 mcmc_trace(draws,pars=c("b_abslat","b_mar.fresh2Fresh","b_mar.fresh2Marine","b_abslat:mar.fresh2Fresh","b_abslat:mar.fresh2Marine"))
 ```
 
 
-```{r, echo=FALSE, include=TRUE, warning=FALSE,fig.show='asis'}
+```{r, echo=FALSE, include=FALSE, warning=FALSE,fig.show='asis'}
 #Lat v Length, no salinity
 fit_summary <- rstan::summary(g.latT)
 #values w 10 sigfigs
 fit_summary$fixed
-
 p1<-plot(brms::conditional_effects(g.latT,effects="abslat"), points = T)
-p1$abslat$labels$x<-"Absolute Latitude"
-p1$abslat$labels$y<-"Log (BL)"
-p1
 ```
 
-```{r}
-#Lat v Length, with salinity - needs title or caption
+```{r, cache=TRUE, echo=FALSE, fig.cap="Insert figure caption here- mention phylogenetic trend"}
+p1$abslat$labels$x<-"Absolute Latitude"
+p1$abslat$labels$y<-"Log (BL)"
+p1$abslat
+```
+
+```{r, cache=TRUE, echo=FALSE, include=FALSE}
 p2<-plot(brms::conditional_effects(g.latT,effects="abslat:mar.fresh2"),points=T)
 p2$`abslat:mar.fresh2`$labels$x <- "Absolute Latitude"
 p2$`abslat:mar.fresh2`$labels$y <- "Log (BL)"
 p2$`abslat:mar.fresh2`$labels$colour<-"Salinity"
 p2$`abslat:mar.fresh2`$labels$fill<-"Salinity"
-p2
-#p2$`abslat:mar.fresh2`$theme <- theme_classic()
+```
+
+```{r, cache=TRUE, echo=FALSE, fig.cap="insert figure caption here"}
+#Lat v Length, with salinity
+p2$abslat
 ```
 
 
-```{r}
+```{r, message=FALSE, echo=FALSE, warning=FALSE, fig.cap="Figure 4: Differences in Latitude-Size Relationship by Salinity"}
 mfe<- posterior_samples(g.latT)%>%
   transmute(dif1 = b_mar.fresh2Marine - b_mar.fresh2Fresh,dif2 = b_mar.fresh2Marine,dif3 = b_mar.fresh2Fresh)
 pmf <- ggplot(mfe,aes(x = dif1, y = 0)) +
@@ -121,9 +125,12 @@ pfe <- ggplot(mfe,aes(x = dif3, y = 0)) +
   labs(subtitle = "C",
        x = expression("Fresh - Euryhaline (difference score)")) +
   theme_bw() +
-  theme(panel.grid = element_blank()) 
-bayesplot_grid(pmf, pme, pfe,grid_args = list(ncol = 2))
+  theme(panel.grid = element_blank())
 ```
 
+```{r,echo=FALSE}
+bayesplt<-bayesplot_grid(pmf, pme, pfe,grid_args = list(ncol = 2))
+print(bayesplt)
+```
 
 
