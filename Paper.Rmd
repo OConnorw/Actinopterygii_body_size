@@ -9,16 +9,23 @@ bibliography: Paper.bib
 # Introduction
 The relationship between body size and latitude has been studied for almost two centuries, and it is still not fully understood(@bergmann1847ober; @watt2010bergmann). Bergmann’s initial observations and his reasoning about the relationship has become a keystone in ecogeography, but further studies have sparked debates over the details of the rule. These debates come from the lack of a single complete translation of Bergmann’s initial paper(@watt2010bergmann) and developments in taxonomic classifications(@mayr1956geographical). This has led to a lack of a universally accepted definition for Bergmann’s rule, and an incomplete understanding of the trend it models. Variations in the rule include the presence of a mechanism, what kind of animals it applies to, and the taxonomic scope(@watt2010bergmann). 
 Bergmann included a mechanism in his initial paper: “for the amount of warmth, of which an animal can raise itself above its surrounding, the relation of its volume to its surface is of course of great importance; it is thus clear, that animals, have to create less warmth in relation to their size the larger they are, to gain a certain increase in temperature above the one of their surrounding.”(@watt2010bergmann, @bergmann1847ober) Some more recent papers have chosen to exclude this mechanism from the rule, and argued that a mechanism is not necessary for the rule to exist because of the empirical nature of Bergmann’s initial observations(@meiri2011bergmann) and the presence of confounding variables(@mayr1970populations). Others have argued that a mechanism is required for it to actually be of value(@watt2010bergmann). The organisms that this rule applies to vary, although it is accepted that Bergmann’s initial paper dealt exclusively with endotherms(@blanckenhorn2002against). The variations include restrictions to endothermic vertebrates, such as in @rensch1938some, to mammals in @angilletta2003temperature, and some with no restrictions at all, like @sears2004body. The taxonomic scope is also disputed, with some papers dealing with interspecific variations(@lindsey1966body), some intraspecific(@heibo2005latitudinal, @belk2002bergmann, @ashton2003bergmann), and some papers that look at both(@chown2010body, @adams2008amphibians). Several older papers choose to ignore phylogeny completely(@lindsey1966body, @fisher2010global). The reasoning for this confusion is partially from Bergmann's original study, as many of the species that he looked at have since become known as populations of the same species(@mayr1956geographical).
+
+### b
 Mixed results have come from looking for evidence of a trend similar to both interspecific and intraspecific versions of Bergmann’s rule in ectotherms. Freshwater fish are a prime example of this, with a lack of trend in 18 North American species(@belk2002bergmann) and the European species P. Fluviatilis(@heibo2005latitudinal), but a positive correlation between latitude and size within 25 species in Europe(@blanck2007large). All of these studies look at populations of the same species, not between species. Saltwater fishes appear to exhibit the trends similar to those noted by Bergmann, with larger species occurring at more extreme latitudes, although studies that observed this trend did not account for phylogeny(@lindsey1966body, @fisher2010global). Amphibians show mixed trends, with some species having populations of larger individuals near the equator, and most with larger populations near the poles(@queiroz2004phylogeny), and an inter- and intra-specific  study of one family, Plethodon, that showed no overall relation between length and temperature(@adams2008amphibians). Another study of amphibians with no phylogenetic consideration showed no trend in maximum length and latitude of salamanders, but it did show larger specimens at more extreme latitudes in Anurans(@lindsey1966body). Studies of turtles have shown varying trends, with most species showing trends of increasing size with latitude, and some showing the converse trend(@queiroz2004phylogeny), and this holds both phylogenetically and nonphylogenetically(@ashton2003bergmann). Squamates mostly do not exhibit Bergmann-like trends(@queiroz2004phylogeny, @ashton2003bergmann, @pincheira2008evolution), although European lizards tend to be larger at more extreme latitudes(@olalla2006broad). Latitude has an effect on the size of most insects on both the interspecific and intraspecific levels, but the direction of these trends is split fairly evenly between a positive and negative correlation(@chown2010body, @mousseau1997ectotherms).
+
+### c
 Due to the ectothermic nature of most fish, the mechanism described by Bergmann does not apply. Since most of the existing studies of fishes focus on intraspecific trends, data for interspecific comparisons of average latitude and maximum length was used. That is why we are using a slight variation of the version of the rule found in @blackburn1999geographic, “Bergmann's rule is the tendency for a positive association between the body mass of species in a monophyletic higher taxon and the latitude inhabited by those species.” One study that used a similar interpretation of the rule and maximum lengths for species was @olalla2006broad, which looked at squamate lengths in Europe and North America, but it did not consider phylogeny. Body size in fish was studied across 5 salinity groups in @clarke2021evidence, and a difference in body size was noted. This difference led us to believe that a difference in the size-latitude relationship could exist among salinity groups, and is the reason salinity was selected for further analysis. It may also provide insight that would eventually lead to a mechanism, although that is not studied here.
 
 
 # Methods
-##Selecting species, getting data
+
+### Selecting species, getting data
 Using the list of species in The Fish Tree of Life (@chang2019r) as a starting point, 30% of each family that contained more than 5 species was sampled, and the entire family was sampled for those that contained less than 5 species. The sampled list of species was then used to subset the data from rfishbase (@boettiger2012rfishbase), and a final phylogenetic tree was created using the species present in both the sample and rfishbase. Latitude data was obtained from rgbif (@chamberlain2022rgbif), and the average absolute latitude was taken for each species. This data was then merged with the subset of rfishbase data. Data on many species in rfishbase have been removed since this project began, so instead of current rfishbase data a downloaded data set from spring of 2021 has been used. The GBIF data have been filtered to minimize mistakes in the geographic occurrence records by plotting on a map all occurrences of saltwater fish and removing those found deep inland, and the same for freshwater and the open ocean.
-##Body size relationships between latitude and salinity
+
+### Body size relationships between latitude and salinity
 Bayesian regression modeling was used to determine whether body length of species of Actinopterygii could be predicted by their latitude and salinity. We used the time-calibrated, multispecies coalescent phylogeny of @chang2019r, along with maximum body length (@chamberlain2022rgbif) and salinity (fresh, euryhaline, or marine) for each species (Fig. 2; @boettiger2012rfishbase). We used interaction models to determine whether the additive effects of multiple environmental variables better explain variation in body size with the natural log of maximum body length as the dependent variable, salinity categories (fresh, euryhaline, or marine) as predictor variables and absolute value of latitude as a continuous predictor variable. The phylogenetic correlation matrix is used as a group-level effect (@villemereuil2012bayesian).Regression models with categorical predictor variables treat one category as the intercept value (i.e., “dummy variable,” @burkner2017brms). We removed the intercept parameter from the model so that the posterior distribution of the phylogenetically corrected log-length was estimated directly for each group(@roycroft2020environment). We fit regularizing normal priors on the population-level effects (N (0, 1.5)) to prevent MCMC chains from occasionally searching very large, unreasonable values of model space (@gelman2006prior, @mcelreath2020statistical). The model included four chains run for 1000 generations, with 500 generations of warm-up and 500 generations of sampling. This method allowed us to calculate the phylogenetic signal (Pagel’s λ; @pagel1994detecting) of body length using a mixed-model approach (@housworth2004phylogenetic, @hadfield2010general, @burkner2017brms).
-## 
+
+### d
 In order to have enough RAM to use a larger sample size and finish the analysis in a reasonable amount of time, the modeling was performed on a computer cluster and used hyper threading. For each chain, 8 CPUs were used and this resulted in a runtime of roughly 7 minutes for a sample size of 5%, 25 minutes for 10%, 70 minutes for 15%, 3 hours for 20%, and 12 hours and 30 minutes for 30%. The 30% sample size analysis was performed 5 times, and the results were combined using combine_models from the brms package(@burkner2017brms). 
 
 # Results
@@ -31,6 +38,9 @@ library(knitr)
 library(posterior)
 library(dplyr)
 library(tidybayes)
+library(png)
+library(cowplot)
+library(patchwork)
 ```
 
 
@@ -44,34 +54,45 @@ g.lattotal <- combine_models(g.lat0,g.lat1,g.lat2,g.lat3,g.lat4)
 saveRDS(g.lattotal,"total.rds")
 ```
 
-```{r, echo=FALSE}
+```{r, cache=TRUE, echo=FALSE}
 g.latT <- readRDS("../total.rds")
 ```
 
 
-```{r, include=FALSE}
-#fit_summary <- rstan::summary(g.latT)
-#draws<-as_draws(g.latT)
+```{r, include=FALSE, eval=TRUE}
+fit_summary <- rstan::summary(g.latT)
+draws<-as_draws(g.latT)
 #plot(draws)
-#summary(g.latT,probs=c(0.025,0.975))#[1:9,]
-#kable(summary(g.latT, probs=c(0.025,0.975))
+summary(g.latT,probs=c(0.025,0.975))#[1:9,]
+kable(summary(g.latT, probs=c(0.025,0.975)))
 
 #try to get actual values
-#draws$`1`%>%
-#  model.matrix(b_abslat)
+draws$`1`%>%
+  model.matrix(b_abslat)
 ```
 
-```{r, echo=FALSE}
-ggplot(g.latT$data, aes(x=log.L,col=mar.fresh2)) + geom_histogram(binwidth=0.5) + labs(title="Figure 1: Log Length of Sample of Species",x="Log Length", y = "Count")
-```
+```{r, echo=FALSE, include=FALSE}
+lythr <- png::readPNG("../lythrypnus.png",native=TRUE)
+lythrg <- grid::rasterGrob(lythr)
+plt <- ggplot(g.latT$data, aes(x=log.L,col=mar.fresh2)) + geom_histogram(binwidth=0.5) + labs(title="Figure 1: Log Length of Sample of Species",x="Log Length", y = "Count")
 
-```{r, include=FALSE, eval=FALSE,echo=FALSE}
+#plt <- plt + inset_element(grid::rasterGrob(lythrg), left = 0.5, bottom = 0.55, right = 0.95, top = 0.95)
+#plt <- plt + annotation_raster(lythr, ymin = 4.5,ymax= 5,xmin = 30,xmax = 35)
+#draw_image(lythr)
+#plt
+ggdraw()+draw_image(lythr,x=0.1,y=0.1,scale=100)+draw_plot(plt)
+ggsave("../fig1.png")
+```
+!["figcap"]("../fig1.png")
+
+```{r,include=FALSE,echo=FALSE}
+#, eval=FALSE
 #Trace plots
 mcmc_trace(draws,pars=c("b_abslat","b_mar.fresh2Fresh","b_mar.fresh2Marine","b_abslat:mar.fresh2Fresh","b_abslat:mar.fresh2Marine"))
 ```
 
 
-```{r, echo=FALSE, include=FALSE, warning=FALSE,fig.show='asis'}
+```{r, cache=TRUE, echo=FALSE, include=FALSE, warning=FALSE,fig.show='asis'}
 #Lat v Length, no salinity
 fit_summary <- rstan::summary(g.latT)
 #values w 10 sigfigs
@@ -98,10 +119,39 @@ p2$`abslat:mar.fresh2`$labels$fill<-"Salinity"
 p2$abslat
 ```
 
+```{r}
+library(tidyr)
+g.latT %>%
+  spread_draws(b_Intercept, b_mar.fresh2Fresh, b_mar.fresh2Marine) %>%
+  transmute(eury = b_Intercept,
+         fresh = b_Intercept + b_mar.fresh2Fresh,
+         marine = b_Intercept + b_mar.fresh2Marine) %>%
+  gather(key = mar.fresh2, value = value) %>%
+  ggplot() +
+  geom_density(mapping = aes(x = value, 
+                             group = mar.fresh2, 
+                             fill = mar.fresh2)) +
+  scale_fill_viridis_d()
+```
+
+```{r}
+posterior_samples(g.latT)%>%
+ # spread_draws(`b_Intercept`, `b_abslat:b_mar.fresh2Marine`, `b_abslat:b_mar.fresh2Marine`) %>%
+  transmute(eury = b_Intercept,
+         fresh = `b_Intercept` + `b_abslat:mar.fresh2Fresh`,
+         marine = `b_Intercept` + `b_abslat:mar.fresh2Marine`) %>%
+  gather(key = mar.fresh2, value = value) %>%
+  ggplot() +
+  geom_density(mapping = aes(x = value, 
+                             group = mar.fresh2, 
+                             fill = mar.fresh2)) 
+#+
+#  scale_fill_viridis_d()
+```
 
 ```{r, message=FALSE, echo=FALSE, warning=FALSE, fig.cap="Figure 4: Differences in Latitude-Size Relationship by Salinity"}
 mfe<- posterior_samples(g.latT)%>%
-  transmute(dif1 = b_mar.fresh2Marine - b_mar.fresh2Fresh,dif2 = b_mar.fresh2Marine,dif3 = b_mar.fresh2Fresh)
+  transmute(dif1 = mfe$`b_abslat:mar.fresh2Marine` - mfe$`b_abslat:mar.fresh2Fresh`,dif2 = mfe$`b_abslat:mar.fresh2Marine`,dif3 = mfe$`b_abslat:mar.fresh2Fresh`)
 pmf <- ggplot(mfe,aes(x = dif1, y = 0)) +
     stat_halfeye(fill = "deepskyblue3", 
                 point_interval = median_qi, .width = .95) +

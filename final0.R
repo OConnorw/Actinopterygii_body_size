@@ -3,49 +3,11 @@ library(rfishbase)
 library(ape)
 library(phytools)
 library(geiger)
-<<<<<<< HEAD
-<<<<<<< HEAD
 library(tidyverse)
 library(brms)
 library(tidybayes)
 library(MCMCglmm)
 library(data.table)
-library(tidyverse)
-library(brms)
-library(tidybayes)
-library(MCMCglmm)
-library(data.table)
-=======
-=======
->>>>>>> ec39920e0a492f03efe2554d1b13fb5462b65452
-#library(ggplot2)
-#library(rgbif)
-#library(maps)
-library(tidyverse)
-#library(nlme)
-#library(devtools)#
-#library(parallel)
-#library(doParallel)
-library(brms)
-#library(dplyr)
-library(tidybayes)
-library(MCMCglmm)
-library(data.table)
-#library(reshape2)
-#library(plyr)
-#library(foreach)
-#library(raster)#
-#library(ncdf4)#
-#library(viridis)
-#library(rgdal)#
-#library(rnaturalearthdata)
-#library(rgeos)# - geos-config
-#library(modelr)
-#library(knitr)
-<<<<<<< HEAD
->>>>>>> ec39920e0a492f03efe2554d1b13fb5462b65452
-=======
->>>>>>> ec39920e0a492f03efe2554d1b13fb5462b65452
 
 #fishtree species
 rob.tree <- fishtree_phylogeny(type = "chronogram")
@@ -118,36 +80,16 @@ lat.sum <- dat%>%
   filter(!is.na(abslat))
 latsum <- lat.sum%>%
   mutate(abslat = abs(lat))%>%
-<<<<<<< HEAD
-<<<<<<< HEAD
-  filter(!is.na(abs lat))
-
-#Latmodel 
-=======
   filter(!is.na(abslat))
 
 #Latmodel
->>>>>>> ec39920e0a492f03efe2554d1b13fb5462b65452
-=======
-  filter(!is.na(abslat))
-
-#Latmodel
->>>>>>> ec39920e0a492f03efe2554d1b13fb5462b65452
 g.lat.parallel <- brm(
   log.L ~ abslat*mar.fresh2 + (1|gr(Species, cov = As)),   
   data = latsum, 
   family = student(link = "identity"),
   iter = 1000, 
   chains = 4,
-<<<<<<< HEAD
-<<<<<<< HEAD
   cores = 4,
-=======
-  cores = 4,#comment in on andromeda run
->>>>>>> ec39920e0a492f03efe2554d1b13fb5462b65452
-=======
-  cores = 4,#comment in on andromeda run
->>>>>>> ec39920e0a492f03efe2554d1b13fb5462b65452
   prior = c(
     prior(normal(0, 10), "b"),
     prior(student_t(3, 0, 20), "sd"),
@@ -155,22 +97,9 @@ g.lat.parallel <- brm(
   ),
   data2=list(As=As),
   control = list(adapt_delta = 0.99, max_treedepth = (15)),
-<<<<<<< HEAD
-<<<<<<< HEAD
   file = paste0("test_",gsub(" ","",as.character(Sys.time()))),
   backend = "cmdstanr",
   threads=threading(8)
-=======
-=======
->>>>>>> ec39920e0a492f03efe2554d1b13fb5462b65452
-#  cores = parallel::detectCores(),#comment out on andromeda run
-  file = paste0("test_",gsub(" ","",as.character(Sys.time()))),
-  backend = "cmdstanr",
-  threads=threading(16)
-<<<<<<< HEAD
->>>>>>> ec39920e0a492f03efe2554d1b13fb5462b65452
-=======
->>>>>>> ec39920e0a492f03efe2554d1b13fb5462b65452
 )
 saveRDS(g.lat.parallel,"final0.RDS")
 
