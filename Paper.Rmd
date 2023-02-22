@@ -144,9 +144,8 @@ posterior_samples(g.latT)%>%
   ggplot() +
   geom_density(mapping = aes(x = value, 
                              group = mar.fresh2, 
-                             fill = mar.fresh2)) 
-#+
-#  scale_fill_viridis_d()
+                             fill = mar.fresh2)) +
+  scale_fill_viridis_d()
 ```
 
 ```{r, message=FALSE, echo=FALSE, warning=FALSE, fig.cap="Figure 4: Differences in Latitude-Size Relationship by Salinity"}
